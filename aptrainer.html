@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Psychology Trainer - Version 46</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.4s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .modern-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card-shadow:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .difficulty-basic { border-left: 4px solid #10b981; }
+        .difficulty-intermediate { border-left: 4px solid #f59e0b; }
+        .difficulty-advanced { border-left: 4px solid #ef4444; }
+        
+        .category-research { background-color: #eff6ff; }
+        .category-case { background-color: #f0fdf4; }
+        .category-application { background-color: #fef3c7; }
+        
+        .role-card {
+            transition: all 0.3s ease;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .gradient-icon {
+            background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
+        }
+        
+        .answer-option {
+            transition: all 0.2s ease;
+        }
+        
+        .answer-option:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .answer-correct {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+        
+        .answer-incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        
+        .answer-selected {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .assignment-card {
+            transition: all 0.2s ease;
+        }
+        
+        .assignment-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .student-row:hover {
+            background-color: #f9fafb;
+        }
+        
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .nav-btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .explanation-section {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .explanation-correct {
+            border-left-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        
+        .explanation-incorrect {
+            border-left-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        
+        .explanation-neutral {
+            border-left-color: #6b7280;
+            background-color: #f9fafb;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        .performance-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .trend-up {
+            color: #10b981;
+        }
+        
+        .trend-down {
+            color: #ef4444;
+        }
+        
+        .trend-stable {
+            color: #6b7280;
+        }
+
+        .timer-display {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .review-correct {
+            border-left: 4px solid #10b981;
+            background-color: #f0fdf4;
+        }
+
+        .review-incorrect {
+            border-left: 4px solid #ef4444;
+            background-color: #fef2f2;
+        }
+
+        .status-active {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-draft {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-completed {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .assignment-row {
+            transition: all 0.2s ease;
+        }
+
+        .assignment-row:hover {
+            background-color: #f9fafb;
+        }
+
+        .mastery-excellent {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .mastery-good {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .mastery-needs-work {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .streak-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-full">
+    <div id="app" class="min-h-full">
+        <!-- Role Selection Screen -->
+        <div id="role-selection" class="min-h-full flex items-center justify-center modern-gradient">
+            <div class="max-w-6xl w-full px-8 py-12">
+                <div class="text-center mb-12">
+                    <div class="mx-auto h-20 w-20 gradient-icon rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.84L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.84l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-5xl font-bold text-white mb-4">AP Psychology Trainer</h1>
+                    <p class="text-xl text-blue-100 max-w-2xl mx-auto">Version 46 - Complete Features + Role-Based Access Control</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <!-- Student Card -->
+                    <div class="role-card bg-white rounded-2xl shadow-2xl p-8 hover-lift">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">I'm a Student</h3>
+                            <p class="text-gray-600">Practice with real progress tracking and detailed analytics</p>
+                        </div>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Real progress tracking with persistent data
+                            </div>
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Actual study streaks and performance analytics
+                            </div>
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Dynamic recommendations based on performance
+                            </div>
+                        </div>
+                        
+                        <button onclick="setUserRole('student')" class="w-full bg-blue-600 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg">
+                            Start Learning
+                        </button>
+                    </div>
+                    
+                    <!-- Teacher Card -->
+                    <div class="role-card bg-white rounded-2xl shadow-2xl p-8 hover-lift">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">I'm a Teacher</h3>
+                            <p class="text-gray-600">Complete assignment management and student tracking</p>
+                        </div>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Full assignment builder with question library
+                            </div>
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Assignment management with submission tracking
+                            </div>
+                            <div class="flex items-center text-gray-700">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Student performance analytics
+                            </div>
+                        </div>
+                        
+                        <button onclick="setUserRole('teacher')" class="w-full bg-green-600 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:bg-green-700 transition-colors shadow-lg">
+                            Manage Classroom
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Access Code Modal -->
+        <div id="access-code-modal" class="fixed inset-0 modal-backdrop hidden z-50">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white rounded-lg shadow-xl max-w-md w-full modal-content">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Teacher Access Required</h3>
+                            <button onclick="closeAccessCodeModal()" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <div class="flex items-center mb-3">
+                                <svg class="w-8 h-8 text-yellow-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Access Code Required</h4>
+                                    <p class="text-sm text-gray-600">Enter the teacher access code to continue</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form onsubmit="verifyAccessCode(event)">
+                            <div class="mb-4">
+                                <label for="access-code-input" class="block text-sm font-medium text-gray-700 mb-2">Access Code</label>
+                                <input type="password" 
+                                       id="access-code-input" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                                       placeholder="Enter access code"
+                                       required>
+                            </div>
+                            
+                            <div class="bg-blue-50 p-3 rounded-lg mb-4">
+                                <p class="text-sm text-blue-800">
+                                    <strong>For Demo Purposes:</strong> The access code is <code class="bg-blue-200 px-1 rounded">TEACHER2024</code>
+                                </p>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="closeAccessCodeModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                    Access Teacher Dashboard
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Header -->
+        <header id="main-header" class="bg-white shadow-sm border-b border-gray-200 hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="gradient-icon p-3 rounded-2xl shadow-md">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.84L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.84l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">AP Psychology Trainer</h1>
+                            <p id="role-subtitle" class="text-gray-600 text-sm">Version 46 - Complete Features + Role-Based Access Control</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <nav id="main-navigation" class="hidden md:flex space-x-2">
+                            <!-- Navigation will be populated based on role -->
+                        </nav>
+                        <button onclick="switchRole()" class="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg font-medium transition-colors border border-gray-300 hover:border-gray-400">
+                            Switch Role
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Student Practice View -->
+        <div id="practice-view" class="view-content hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-gray-900">Practice Questions</h2>
+                    <p class="text-gray-600 mt-2">Select a unit to begin practicing AP Psychology questions</p>
+                </div>
+
+                <!-- Unit Selection -->
+                <div id="unit-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Unit cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Progress View -->
+        <div id="student-progress-view" class="view-content hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-gray-900">My Progress</h2>
+                    <p class="text-gray-600 mt-2">Track your performance across all AP Psychology units</p>
+                </div>
+
+                <!-- Overall Progress Summary -->
+                <div id="overall-progress-summary" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- Progress summary will be populated by JavaScript -->
+                </div>
+
+                <!-- Unit Progress Cards -->
+                <div id="unit-progress-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <!-- Unit progress cards will be populated by JavaScript -->
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-lg shadow-lg p-6 card-shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                    <div id="recent-activity-list" class="space-y-4">
+                        <!-- Recent activity will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Practice View -->
+        <div id="question-view" class="view-content hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="bg-white rounded-lg shadow-lg p-8 card-shadow">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 id="question-unit-title" class="text-2xl font-bold text-gray-900">Unit 1: Scientific Practices</h2>
+                            <div class="flex items-center space-x-4">
+                                <div class="text-sm text-gray-600">
+                                    Question <span id="question-number">1</span> of <span id="total-questions">10</span>
+                                </div>
+                                <div class="timer-display text-lg font-bold text-blue-600" id="question-timer">
+                                    00:00
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                            <div id="question-progress" class="bg-blue-600 h-2 rounded-full progress-bar" style="width: 10%"></div>
+                        </div>
+                    </div>
+
+                    <div id="question-content">
+                        <!-- Question content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results View -->
+        <div id="results-view" class="view-content hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="results-card rounded-lg shadow-lg p-8 text-center mb-8">
+                    <div class="mb-6">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Practice Complete!</h2>
+                        <p class="text-blue-100" id="results-subtitle">Great job on completing your practice session</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div class="text-3xl font-bold text-white" id="final-score">85%</div>
+                            <div class="text-blue-100">Final Score</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div class="text-3xl font-bold text-white" id="correct-count">8/10</div>
+                            <div class="text-blue-100">Correct Answers</div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                            <div class="text-3xl font-bold text-white" id="average-time">1:24</div>
+                            <div class="text-blue-100">Avg. Time</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Feedback -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6 card-shadow">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Performance Feedback</h3>
+                    <div id="performance-message" class="text-gray-700 mb-4">
+                        <!-- Performance message will be inserted here -->
+                    </div>
+                    <div id="study-tips" class="bg-blue-50 p-4 rounded-lg">
+                        <!-- Study tips will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showAnswerReview()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                        Review Answers
+                    </button>
+                    <button onclick="startPractice(currentUnit, totalQuestionsInSet)" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                        Practice Again
+                    </button>
+                    <button onclick="showView('practice')" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors font-medium">
+                        Choose New Unit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Answer Review View -->
+        <div id="answer-review-view" class="view-content hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-gray-900">Answer Review</h2>
+                    <p class="text-gray-600 mt-2">Review all questions from your practice session</p>
+                </div>
+
+                <div id="review-content" class="space-y-6">
+                    <!-- Review content will be populated by JavaScript -->
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button onclick="showView('results')" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium mr-4">
+                        Back to Results
+                    </button>
+                    <button onclick="showView('practice')" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors font-medium">
+                        Practice More
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Assignment Management View -->
+        <div id="assignment-management-view" class="view-content hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-900">Assignment Management</h2>
+                            <p class="text-gray-600 mt-2">Manage and track student assignments</p>
+                        </div>
+                        <button onclick="showView('assignment-builder')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            Create New Assignment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Assignment Stats Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-blue-100 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Total Assignments</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="total-assignments">3</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-green-100 rounded-lg">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Active Assignments</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="active-assignments">2</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-yellow-100 rounded-lg">
+                                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Pending Submissions</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="pending-submissions">12</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-purple-100 rounded-lg">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Total Students</p>
+                                <p class="text-2xl font-semibold text-gray-900">24</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assignment List -->
+                <div class="bg-white rounded-lg shadow-lg card-shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">All Assignments</h3>
+                    </div>
+                    
+                    <div id="assignments-list" class="divide-y divide-gray-200">
+                        <!-- Sample assignments -->
+                        <div class="assignment-row p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <h4 class="text-lg font-semibold text-gray-900">Unit 1 Practice Quiz</h4>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-active">
+                                            Active
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 mb-3">Practice quiz covering research methods and statistics</p>
+                                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v10a1 1 0 001 1h6a1 1 0 001-1V8a1 1 0 00-1-1H8z"></path>
+                                            </svg>
+                                            10 questions
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            45 min
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v10a1 1 0 001 1h6a1 1 0 001-1V8a1 1 0 00-1-1H8z"></path>
+                                            </svg>
+                                            Due: Feb 15, 2024
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-6">
+                                    <div class="text-2xl font-bold text-gray-900">18</div>
+                                    <div class="text-sm text-gray-500">submissions</div>
+                                    <div class="text-sm text-gray-600 mt-1">Avg: 82%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="assignment-row p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <h4 class="text-lg font-semibold text-gray-900">Neuroscience Assessment</h4>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-active">
+                                            Active
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 mb-3">Comprehensive assessment on biological bases of behavior</p>
+                                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v10a1 1 0 001 1h6a1 1 0 001-1V8a1 1 0 00-1-1H8z"></path>
+                                            </svg>
+                                            15 questions
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            60 min
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v10a1 1 0 001 1h6a1 1 0 001-1V8a1 1 0 00-1-1H8z"></path>
+                                            </svg>
+                                            Due: Feb 20, 2024
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-6">
+                                    <div class="text-2xl font-bold text-gray-900">12</div>
+                                    <div class="text-sm text-gray-500">submissions</div>
+                                    <div class="text-sm text-gray-600 mt-1">Avg: 76%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="assignment-row p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <h4 class="text-lg font-semibold text-gray-900">Memory and Cognition Test</h4>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-completed">
+                                            Completed
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 mb-3">Test covering memory processes and cognitive psychology</p>
+                                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v10a1 1 0 001 1h6a1 1 0 001-1V8a1 1 0 00-1-1H8z"></path>
+                                            </svg>
+                                            12 questions
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            50 min
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v10a1 1 0 001 1h6a1 1 0 001-1V8a1 1 0 00-1-1H8z"></path>
+                                            </svg>
+                                            Due: Jan 30, 2024
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-6">
+                                    <div class="text-2xl font-bold text-gray-900">24</div>
+                                    <div class="text-sm text-gray-500">submissions</div>
+                                    <div class="text-sm text-gray-600 mt-1">Avg: 88%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignment Builder View -->
+        <div id="assignment-builder-view" class="view-content hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-gray-900">Assignment Builder</h2>
+                    <p class="text-gray-600 mt-2">Create custom assignments with question management</p>
+                </div>
+
+                <!-- Assignment Creation Form -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Assignment Details -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-lg shadow-lg p-6 card-shadow">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Assignment Details</h3>
+                            
+                            <form id="assignment-form">
+                                <div class="mb-4">
+                                    <label for="assignment-title" class="block text-sm font-medium text-gray-700 mb-2">Assignment Title</label>
+                                    <input type="text" id="assignment-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter assignment title">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="assignment-description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                    <textarea id="assignment-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Assignment description"></textarea>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="assignment-due-date" class="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                                    <input type="date" id="assignment-due-date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label for="assignment-time-limit" class="block text-sm font-medium text-gray-700 mb-2">Time Limit (minutes)</label>
+                                    <input type="number" id="assignment-time-limit" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="60" min="1">
+                                </div>
+                            </form>
+                            
+                            <!-- Selected Questions Summary -->
+                            <div class="border-t pt-4">
+                                <h4 class="font-medium text-gray-900 mb-2">Selected Questions</h4>
+                                <div class="text-sm text-gray-600">
+                                    <div class="flex justify-between">
+                                        <span>Total Questions:</span>
+                                        <span id="selected-count">0</span>
+                                    </div>
+                                </div>
+                                <div id="selected-questions-list" class="mt-2 space-y-1">
+                                    <!-- Selected questions will appear here -->
+                                </div>
+                            </div>
+                            
+                            <button onclick="createAssignment()" class="w-full mt-6 bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                                Create Assignment
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question Library -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-lg shadow-lg p-6 card-shadow">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-lg font-semibold text-gray-900">Question Library</h3>
+                                <div class="flex space-x-2">
+                                    <select id="unit-filter" onchange="filterQuestions()" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                        <option value="">All Units</option>
+                                        <option value="1">Unit 1: Science Practices</option>
+                                        <option value="2">Unit 2: Biological Bases</option>
+                                        <option value="3">Unit 3: Cognition</option>
+                                        <option value="4">Unit 4: Development & Learning</option>
+                                        <option value="5">Unit 5: Social Psychology & Personality</option>
+                                        <option value="6">Unit 6: Mental & Physical Health</option>
+                                    </select>
+                                    <select id="difficulty-filter" onchange="filterQuestions()" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                        <option value="">All Difficulties</option>
+                                        <option value="Basic">Basic</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Question List -->
+                            <div id="question-library" class="space-y-4 max-h-96 overflow-y-auto">
+                                <!-- Questions will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Progress Teacher View -->
+        <div id="student-progress-teacher-view" class="view-content hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-gray-900">Student Progress Tracking</h2>
+                    <p class="text-gray-600 mt-2">Monitor student progress with detailed analytics</p>
+                </div>
+
+                <!-- Class Overview Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-blue-100 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Total Students</p>
+                                <p class="text-2xl font-semibold text-gray-900">24</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-green-100 rounded-lg">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Class Average</p>
+                                <p class="text-2xl font-semibold text-gray-900">78%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-yellow-100 rounded-lg">
+                                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">At Risk Students</p>
+                                <p class="text-2xl font-semibold text-gray-900">3</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-purple-100 rounded-lg">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Top Performers</p>
+                                <p class="text-2xl font-semibold text-gray-900">8</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Student Progress List -->
+                <div class="bg-white rounded-lg shadow-lg card-shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Student Progress Overview</h3>
+                    </div>
+                    
+                    <div class="divide-y divide-gray-200">
+                        <div class="student-row p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                        EJ
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-900">Emma Johnson</h4>
+                                        <p class="text-sm text-gray-600">emma.j@school.edu</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-6">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-green-600">92%</div>
+                                        <div class="text-xs text-gray-500">Overall</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-semibold text-gray-900">156</div>
+                                        <div class="text-xs text-gray-500">Questions</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-semibold text-orange-600">7</div>
+                                        <div class="text-xs text-gray-500">Day Streak</div>
+                                    </div>
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                        Excellent
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="student-row p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                        MC
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-900">Michael Chen</h4>
+                                        <p class="text-sm text-gray-600">michael.c@school.edu</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-6">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-blue-600">85%</div>
+                                        <div class="text-xs text-gray-500">Overall</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-semibold text-gray-900">142</div>
+                                        <div class="text-xs text-gray-500">Questions</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-semibold text-orange-600">3</div>
+                                        <div class="text-xs text-gray-500">Day Streak</div>
+                                    </div>
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                        Good
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="student-row p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                        SW
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-900">Sarah Williams</h4>
+                                        <p class="text-sm text-gray-600">sarah.w@school.edu</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-6">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-red-600">68%</div>
+                                        <div class="text-xs text-gray-500">Overall</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-semibold text-gray-900">89</div>
+                                        <div class="text-xs text-gray-500">Questions</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg font-semibold text-gray-400">0</div>
+                                        <div class="text-xs text-gray-500">Day Streak</div>
+                                    </div>
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                        Needs Help
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentUser = null;
+        let currentView = 'role-selection';
+        let selectedAnswer = null;
+        let currentQuestionIndex = 0;
+        let selectedQuestions = [];
+        let currentUnit = 1;
+        let currentQuestionSet = [];
+        let totalQuestionsInSet = 10;
+        let sessionStartTime = null;
+        let questionStartTime = null;
+        let questionTimes = [];
+        let sessionAnswers = [];
+        let timerInterval = null;
+
+        // Assignment Builder Variables
+        let selectedQuestionsForAssignment = [];
+        let allQuestions = [];
+
+        // Progress Tracking Variables
+        let userProgress = {};
+        let practiceHistory = [];
+        let studyStreak = 0;
+
+        // Unit information
+        const unitInfo = {
+            1: { name: "Science Practices", description: "Research methods, data interpretation, argumentation", color: "blue" },
+            2: { name: "Biological Bases", description: "Heredity, nervous system, brain, sensation", color: "green" },
+            3: { name: "Cognition", description: "Memory, thinking, language, sensation & perception", color: "purple" },
+            4: { name: "Development & Learning", description: "Lifespan development, learning theories, conditioning", color: "yellow" },
+            5: { name: "Social Psychology & Personality", description: "Social influence, personality theories, group behavior", color: "red" },
+            6: { name: "Mental & Physical Health", description: "Psychological disorders, treatment, stress & health", color: "indigo" }
+        };
+
+        // Question database
+        const questionDatabase = {
+            1: [
+                {
+                    question: "Which research method allows for the strongest causal conclusions?",
+                    options: ["Correlational study", "Controlled experiment", "Case study", "Survey"],
+                    correct: 1,
+                    category: "Research Methods",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "Controlled experiments allow for causal conclusions by manipulating variables and controlling for confounds.",
+                        incorrect: ["Correlational studies show relationships but not causation.", "Case studies provide detail but can't establish causation.", "Surveys gather information but can't establish causation."]
+                    }
+                },
+                {
+                    question: "In a normal distribution, what percentage of scores fall within one standard deviation?",
+                    options: ["50%", "68%", "95%", "99%"],
+                    correct: 1,
+                    category: "Statistics",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "68% of scores fall within one standard deviation in a normal distribution.",
+                        incorrect: ["50% is below the mean.", "95% is within two standard deviations.", "99% is within three standard deviations."]
+                    }
+                }
+            ],
+            2: [
+                {
+                    question: "Which neurotransmitter is primarily associated with reward and motivation?",
+                    options: ["Serotonin", "Dopamine", "GABA", "Acetylcholine"],
+                    correct: 1,
+                    category: "Neuroscience",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "Dopamine is the primary neurotransmitter for reward and motivation.",
+                        incorrect: ["Serotonin regulates mood.", "GABA is inhibitory.", "Acetylcholine affects movement and memory."]
+                    }
+                }
+            ],
+            3: [
+                {
+                    question: "Converting physical energy into neural signals is called:",
+                    options: ["Adaptation", "Transduction", "Perception", "Integration"],
+                    correct: 1,
+                    category: "Sensory Processing",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "Transduction converts physical energy into neural signals.",
+                        incorrect: ["Adaptation is decreased sensitivity.", "Perception is interpretation.", "Integration combines information."]
+                    }
+                }
+            ],
+            4: [
+                {
+                    question: "In classical conditioning, a neutral stimulus becomes conditioned when:",
+                    options: ["Presented alone", "Paired with unconditioned stimulus", "Produces strong response", "Removed from environment"],
+                    correct: 1,
+                    category: "Learning",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "Pairing with an unconditioned stimulus creates conditioning.",
+                        incorrect: ["Alone doesn't create conditioning.", "Initial response strength doesn't matter.", "Removal leads to extinction."]
+                    }
+                }
+            ],
+            5: [
+                {
+                    question: "Information moves from short-term to long-term memory through:",
+                    options: ["Automatic processing", "Rehearsal", "Forgetting", "Interference"],
+                    correct: 1,
+                    category: "Memory",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "Rehearsal helps transfer information to long-term memory.",
+                        incorrect: ["Automatic processing is limited.", "Forgetting loses information.", "Interference disrupts memory."]
+                    }
+                }
+            ],
+            6: [
+                {
+                    question: "Piaget's preoperational stage is characterized by:",
+                    options: ["Abstract thinking", "Symbolic thinking without logic", "Concrete operations", "Sensorimotor exploration"],
+                    correct: 1,
+                    category: "Development",
+                    difficulty: "Basic",
+                    explanations: {
+                        correct: "Preoperational stage has symbolic thinking but lacks logical operations.",
+                        incorrect: ["Abstract thinking is formal operational.", "Concrete operations come later.", "Sensorimotor is earlier stage."]
+                    }
+                }
+            ]
+        };
+
+        // Core navigation functions
+        function setUserRole(role) {
+            if (role === 'teacher') {
+                showAccessCodeModal();
+                return;
+            }
+            
+            currentUser = role;
+            document.getElementById('role-selection').classList.add('hidden');
+            document.getElementById('main-header').classList.remove('hidden');
+            
+            const subtitle = document.getElementById('role-subtitle');
+            if (role === 'student') {
+                subtitle.textContent = 'Student Dashboard - Real Progress Tracking';
+                setupStudentNavigation();
+                initializeProgress();
+                showView('practice');
+            }
+        }
+
+        function showAccessCodeModal() {
+            document.getElementById('access-code-modal').classList.remove('hidden');
+            document.getElementById('access-code-input').focus();
+        }
+
+        function closeAccessCodeModal() {
+            document.getElementById('access-code-modal').classList.add('hidden');
+            document.getElementById('access-code-input').value = '';
+        }
+
+        function verifyAccessCode(event) {
+            event.preventDefault();
+            const accessCode = document.getElementById('access-code-input').value;
+            
+            if (accessCode === 'TEACHER2024') {
+                closeAccessCodeModal();
+                
+                currentUser = 'teacher';
+                document.getElementById('role-selection').classList.add('hidden');
+                document.getElementById('main-header').classList.remove('hidden');
+                
+                const subtitle = document.getElementById('role-subtitle');
+                subtitle.textContent = 'Teacher Dashboard - Complete Classroom Management';
+                setupTeacherNavigation();
+                showView('assignment-management');
+                
+                showNotification('Welcome to the Teacher Dashboard!', 'success');
+            } else {
+                showNotification('Invalid access code. Please try again.', 'error');
+                document.getElementById('access-code-input').value = '';
+                document.getElementById('access-code-input').focus();
+            }
+        }
+
+        function setupStudentNavigation() {
+            const nav = document.getElementById('main-navigation');
+            nav.innerHTML = `
+                <button onclick="showView('practice')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white">
+                    Practice
+                </button>
+                <button onclick="showView('progress')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:text-gray-900">
+                    My Progress
+                </button>
+            `;
+        }
+
+        function setupTeacherNavigation() {
+            const nav = document.getElementById('main-navigation');
+            nav.innerHTML = `
+                <button onclick="showView('assignment-management')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white">
+                    Manage Assignments
+                </button>
+                <button onclick="showView('assignment-builder')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:text-gray-900">
+                    Create Assignment
+                </button>
+                <button onclick="showView('student-progress-teacher')" class="nav-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:text-gray-900">
+                    Student Progress
+                </button>
+            `;
+        }
+
+        // Progress Tracking Functions
+        function initializeProgress() {
+            userProgress = JSON.parse(localStorage.getItem('userProgress') || '{}');
+            practiceHistory = JSON.parse(localStorage.getItem('practiceHistory') || '[]');
+            
+            for (let unit = 1; unit <= 6; unit++) {
+                if (!userProgress[unit]) {
+                    userProgress[unit] = {
+                        questionsAttempted: 0,
+                        questionsCorrect: 0,
+                        totalTime: 0,
+                        sessions: 0,
+                        bestScore: 0,
+                        lastPracticed: null,
+                        masteryLevel: 0
+                    };
+                }
+            }
+            
+            calculateStudyStreak();
+            saveProgress();
+        }
+
+        function calculateStudyStreak() {
+            if (practiceHistory.length === 0) {
+                studyStreak = 0;
+                return;
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            let streak = 0;
+            let currentDate = new Date(today);
+            
+            for (let i = 0; i < 30; i++) {
+                const dateStr = currentDate.toDateString();
+                const hasActivity = practiceHistory.some(session => {
+                    const sessionDate = new Date(session.date);
+                    sessionDate.setHours(0, 0, 0, 0);
+                    return sessionDate.toDateString() === dateStr;
+                });
+                
+                if (hasActivity) {
+                    streak++;
+                } else if (i === 0) {
+                    currentDate.setDate(currentDate.getDate() - 1);
+                    continue;
+                } else {
+                    break;
+                }
+                
+                currentDate.setDate(currentDate.getDate() - 1);
+            }
+            
+            studyStreak = streak;
+        }
+
+        function updateProgress(unit, questionsAnswered, correctAnswers, timeSpent) {
+            const unitProgress = userProgress[unit];
+            
+            unitProgress.questionsAttempted += questionsAnswered;
+            unitProgress.questionsCorrect += correctAnswers;
+            unitProgress.totalTime += timeSpent;
+            unitProgress.sessions += 1;
+            unitProgress.lastPracticed = new Date().toISOString();
+            
+            const sessionScore = Math.round((correctAnswers / questionsAnswered) * 100);
+            if (sessionScore > unitProgress.bestScore) {
+                unitProgress.bestScore = sessionScore;
+            }
+            
+            const accuracy = unitProgress.questionsCorrect / unitProgress.questionsAttempted;
+            const sessionWeight = Math.min(unitProgress.sessions / 10, 1);
+            unitProgress.masteryLevel = Math.round(accuracy * sessionWeight * 100);
+            
+            practiceHistory.push({
+                date: new Date().toISOString(),
+                unit: unit,
+                questionsAnswered: questionsAnswered,
+                correctAnswers: correctAnswers,
+                score: sessionScore,
+                timeSpent: timeSpent
+            });
+            
+            calculateStudyStreak();
+            saveProgress();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('userProgress', JSON.stringify(userProgress));
+            localStorage.setItem('practiceHistory', JSON.stringify(practiceHistory));
+        }
+
+        function getOverallStats() {
+            let totalQuestions = 0;
+            let totalCorrect = 0;
+            let totalTime = 0;
+            
+            Object.values(userProgress).forEach(unit => {
+                totalQuestions += unit.questionsAttempted;
+                totalCorrect += unit.questionsCorrect;
+                totalTime += unit.totalTime;
+            });
+            
+            const overallPercentage = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+            
+            return {
+                totalQuestions,
+                totalCorrect,
+                overallPercentage,
+                totalTime,
+                studyStreak
+            };
+        }
+
+        function getMasteryLevel(percentage) {
+            if (percentage >= 85) return { level: 'Excellent', class: 'mastery-excellent', icon: '🎯' };
+            if (percentage >= 70) return { level: 'Good', class: 'mastery-good', icon: '⚡' };
+            return { level: 'Needs Work', class: 'mastery-needs-work', icon: '📚' };
+        }
+
+        function getRecentActivity() {
+            return practiceHistory
+                .slice(-10)
+                .reverse()
+                .map(session => {
+                    const date = new Date(session.date);
+                    const timeAgo = getTimeAgo(date);
+                    const unitName = unitInfo[session.unit].name;
+                    
+                    return {
+                        ...session,
+                        timeAgo,
+                        unitName,
+                        isGoodScore: session.score >= 80
+                    };
+                });
+        }
+
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffHours < 1) return 'Just now';
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            return date.toLocaleDateString();
+        }
+
+        // UI Update Functions
+        function updateUnitCards() {
+            const container = document.getElementById('unit-cards-container');
+            if (!container) return;
+            
+            container.innerHTML = Object.keys(unitInfo).map(unit => {
+                const unitNum = parseInt(unit);
+                const info = unitInfo[unitNum];
+                const progress = userProgress[unitNum];
+                const percentage = progress.questionsAttempted > 0 
+                    ? Math.round((progress.questionsCorrect / progress.questionsAttempted) * 100)
+                    : 0;
+                const mastery = getMasteryLevel(percentage);
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover-lift card-shadow">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-${info.color}-100 rounded-lg flex items-center justify-center">
+                                <span class="text-xl font-bold text-${info.color}-600">${unitNum}</span>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">${info.name}</h3>
+                                <p class="text-sm text-gray-600">${info.description}</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>Progress</span>
+                                <span>${percentage}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-${info.color}-600 h-2 rounded-full progress-bar" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="text-xs font-medium mb-3 inline-flex items-center px-2 py-1 rounded-full ${mastery.class}">
+                            ${mastery.icon} ${mastery.level}
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="startPractice(${unitNum}, 5)" class="flex-1 bg-${info.color}-100 text-${info.color}-700 py-2 px-3 rounded-lg hover:bg-${info.color}-200 transition-colors font-medium text-sm">
+                                Quick Practice (5)
+                            </button>
+                            <button onclick="startPractice(${unitNum}, 10)" class="flex-1 bg-${info.color}-600 text-white py-2 px-3 rounded-lg hover:bg-${info.color}-700 transition-colors font-medium text-sm">
+                                Full Practice (10)
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateProgressView() {
+            const overallStats = getOverallStats();
+            
+            const summaryContainer = document.getElementById('overall-progress-summary');
+            if (summaryContainer) {
+                summaryContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-blue-100 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Overall Progress</p>
+                                <p class="text-2xl font-semibold text-gray-900">${overallStats.overallPercentage}%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-green-100 rounded-lg">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Questions Completed</p>
+                                <p class="text-2xl font-semibold text-gray-900">${overallStats.totalQuestions}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-shadow">
+                        <div class="flex items-center">
+                            <div class="p-2 ${studyStreak > 0 ? 'streak-badge' : 'bg-purple-100'}">
+                                <svg class="w-6 h-6 ${studyStreak > 0 ? 'text-white' : 'text-purple-600'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Study Streak</p>
+                                <p class="text-2xl font-semibold text-gray-900">${studyStreak} day${studyStreak !== 1 ? 's' : ''}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const unitCardsContainer = document.getElementById('unit-progress-cards');
+            if (unitCardsContainer) {
+                unitCardsContainer.innerHTML = Object.keys(unitInfo).map(unit => {
+                    const unitNum = parseInt(unit);
+                    const info = unitInfo[unitNum];
+                    const progress = userProgress[unitNum];
+                    const percentage = progress.questionsAttempted > 0 
+                        ? Math.round((progress.questionsCorrect / progress.questionsAttempted) * 100)
+                        : 0;
+                    
+                    return `
+                        <div class="bg-white rounded-lg shadow-lg p-6 card-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-${info.color}-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-xl font-bold text-${info.color}-600">${unitNum}</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-semibold text-gray-900">${info.name}</h3>
+                                        <p class="text-sm text-gray-600">${info.description}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-${info.color}-600">${percentage}%</div>
+                                    <div class="text-sm text-gray-500">${progress.questionsCorrect}/${progress.questionsAttempted} questions</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div class="bg-${info.color}-600 h-3 rounded-full progress-bar" style="width: ${percentage}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-4 text-center text-sm border-t pt-4">
+                                <div>
+                                    <div class="font-semibold text-gray-900">${progress.questionsCorrect}</div>
+                                    <div class="text-gray-600">Correct</div>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">${progress.questionsAttempted - progress.questionsCorrect}</div>
+                                    <div class="text-gray-600">Incorrect</div>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">${progress.bestScore}%</div>
+                                    <div class="text-gray-600">Best Score</div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="startPractice(${unitNum})" class="w-full mt-4 bg-${info.color}-600 text-white py-2 px-4 rounded-lg hover:bg-${info.color}-700 transition-colors font-medium">
+                                Continue Unit ${unitNum}
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            const recentActivity = getRecentActivity();
+            const activityContainer = document.getElementById('recent-activity-list');
+            if (activityContainer) {
+                if (recentActivity.length === 0) {
+                    activityContainer.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-lg font-medium">No practice sessions yet</p>
+                            <p class="mt-2">Start practicing to see your activity here!</p>
+                        </div>
+                    `;
+                } else {
+                    activityContainer.innerHTML = recentActivity.map(activity => `
+                        <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 ${activity.isGoodScore ? 'bg-green-100' : 'bg-blue-100'} rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 ${activity.isGoodScore ? 'text-green-600' : 'text-blue-600'}" fill="currentColor" viewBox="0 0 20 20">
+                                        ${activity.isGoodScore ? 
+                                            '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>' :
+                                            '<path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.84L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.84l-7-3z"></path>'
+                                        }
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Completed ${activity.unitName} Practice</p>
+                                    <p class="text-sm text-gray-500">Scored ${activity.score}% on ${activity.questionsAnswered} questions</p>
+                                </div>
+                            </div>
+                            <span class="text-sm text-gray-500">${activity.timeAgo}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        function showView(viewName) {
+            const views = document.querySelectorAll('.view-content');
+            views.forEach(view => view.classList.add('hidden'));
+            
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                btn.classList.add('text-gray-600', 'hover:text-gray-900');
+            });
+            
+            let targetView = '';
+            switch(viewName) {
+                case 'practice':
+                    targetView = 'practice-view';
+                    updateUnitCards();
+                    break;
+                case 'progress':
+                    targetView = 'student-progress-view';
+                    updateProgressView();
+                    break;
+                case 'assignment-builder':
+                    targetView = 'assignment-builder-view';
+                    setTimeout(initializeQuestionLibrary, 100);
+                    break;
+                case 'assignment-management':
+                    targetView = 'assignment-management-view';
+                    break;
+                case 'student-progress-teacher':
+                    targetView = 'student-progress-teacher-view';
+                    break;
+                case 'question':
+                    targetView = 'question-view';
+                    break;
+                case 'results':
+                    targetView = 'results-view';
+                    break;
+                case 'answer-review':
+                    targetView = 'answer-review-view';
+                    break;
+            }
+            
+            if (targetView) {
+                document.getElementById(targetView).classList.remove('hidden');
+                
+                const clickedButton = document.querySelector(`[onclick="showView('${viewName}')"]`);
+                if (clickedButton && clickedButton.classList.contains('nav-btn')) {
+                    clickedButton.classList.remove('text-gray-600', 'hover:text-gray-900');
+                    clickedButton.classList.add('active', 'bg-blue-600', 'text-white');
+                }
+            }
+        }
+
+        function switchRole() {
+            currentUser = null;
+            document.getElementById('main-header').classList.add('hidden');
+            document.querySelectorAll('.view-content').forEach(view => view.classList.add('hidden'));
+            document.getElementById('role-selection').classList.remove('hidden');
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        // Practice Functions
+        function startPractice(unit, questionCount = 10) {
+            currentUnit = unit;
+            totalQuestionsInSet = questionCount;
+            
+            const unitQuestions = questionDatabase[unit] || [];
+            if (unitQuestions.length === 0) {
+                showNotification('No questions available for this unit yet.', 'info');
+                return;
+            }
+            
+            currentQuestionSet = shuffleArray([...unitQuestions]).slice(0, Math.min(questionCount, unitQuestions.length));
+            currentQuestionIndex = 0;
+            sessionAnswers = [];
+            questionTimes = [];
+            sessionStartTime = Date.now();
+            
+            showView('question');
+            displayQuestion();
+            startQuestionTimer();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayQuestion() {
+            const question = currentQuestionSet[currentQuestionIndex];
+            const unitName = unitInfo[currentUnit].name;
+            
+            document.getElementById('question-unit-title').textContent = `Unit ${currentUnit}: ${unitName}`;
+            document.getElementById('question-number').textContent = currentQuestionIndex + 1;
+            document.getElementById('total-questions').textContent = currentQuestionSet.length;
+            
+            const progress = ((currentQuestionIndex + 1) / currentQuestionSet.length) * 100;
+            document.getElementById('question-progress').style.width = `${progress}%`;
+            
+            const content = document.getElementById('question-content');
+            content.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">${question.question}</h3>
+                    <div class="space-y-3">
+                        ${question.options.map((option, index) => `
+                            <button onclick="selectAnswer(${index})" 
+                                    class="answer-option w-full text-left p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                <div class="flex items-center">
+                                    <span class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-sm font-medium mr-3">
+                                        ${String.fromCharCode(65 + index)}
+                                    </span>
+                                    <span class="text-gray-900">${option}</span>
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <button onclick="previousQuestion()" 
+                            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                            ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                        Previous
+                    </button>
+                    
+                    <div class="text-sm text-gray-600">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            ${question.category} • ${question.difficulty}
+                        </span>
+                    </div>
+                    
+                    <button onclick="nextQuestion()" 
+                            id="next-button"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors opacity-50 cursor-not-allowed"
+                            disabled>
+                        ${currentQuestionIndex === currentQuestionSet.length - 1 ? 'Finish' : 'Next'}
+                    </button>
+                </div>
+            `;
+            
+            selectedAnswer = null;
+            questionStartTime = Date.now();
+        }
+
+        function selectAnswer(answerIndex) {
+            selectedAnswer = answerIndex;
+            
+            const options = document.querySelectorAll('.answer-option');
+            options.forEach((option, index) => {
+                option.classList.remove('answer-selected');
+                if (index === answerIndex) {
+                    option.classList.add('answer-selected');
+                }
+            });
+            
+            const nextButton = document.getElementById('next-button');
+            nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            nextButton.disabled = false;
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+            
+            const questionTime = Date.now() - questionStartTime;
+            questionTimes.push(questionTime);
+            
+            const question = currentQuestionSet[currentQuestionIndex];
+            sessionAnswers.push({
+                questionIndex: currentQuestionIndex,
+                selectedAnswer: selectedAnswer,
+                correctAnswer: question.correct,
+                isCorrect: selectedAnswer === question.correct,
+                timeSpent: questionTime,
+                question: question
+            });
+            
+            if (currentQuestionIndex === currentQuestionSet.length - 1) {
+                finishPractice();
+            } else {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                
+                if (sessionAnswers[currentQuestionIndex]) {
+                    selectedAnswer = sessionAnswers[currentQuestionIndex].selectedAnswer;
+                    const options = document.querySelectorAll('.answer-option');
+                    options[selectedAnswer].classList.add('answer-selected');
+                    
+                    const nextButton = document.getElementById('next-button');
+                    nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    nextButton.disabled = false;
+                }
+            }
+        }
+
+        function startQuestionTimer() {
+            let seconds = 0;
+            timerInterval = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                document.getElementById('question-timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function finishPractice() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            const totalTime = Date.now() - sessionStartTime;
+            const correctAnswers = sessionAnswers.filter(answer => answer.isCorrect).length;
+            const totalQuestions = sessionAnswers.length;
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            const averageTime = Math.round(totalTime / totalQuestions / 1000);
+            
+            updateProgress(currentUnit, totalQuestions, correctAnswers, Math.round(totalTime / 1000));
+            
+            document.getElementById('final-score').textContent = `${percentage}%`;
+            document.getElementById('correct-count').textContent = `${correctAnswers}/${totalQuestions}`;
+            document.getElementById('average-time').textContent = `${Math.floor(averageTime / 60)}:${(averageTime % 60).toString().padStart(2, '0')}`;
+            
+            const performanceMessage = document.getElementById('performance-message');
+            const studyTips = document.getElementById('study-tips');
+            
+            if (percentage >= 90) {
+                performanceMessage.innerHTML = `
+                    <div class="flex items-center text-green-700 mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="font-semibold">Excellent Work!</span>
+                    </div>
+                    <p>You've demonstrated strong mastery of this material. Your understanding of the concepts is impressive!</p>
+                `;
+                studyTips.innerHTML = `
+                    <h4 class="font-semibold text-blue-900 mb-2">Keep Up the Great Work!</h4>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• Continue practicing to maintain your high performance</li>
+                        <li>• Try more challenging questions to deepen your understanding</li>
+                        <li>• Consider helping classmates who might be struggling</li>
+                    </ul>
+                `;
+            } else if (percentage >= 70) {
+                performanceMessage.innerHTML = `
+                    <div class="flex items-center text-blue-700 mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="font-semibold">Good Progress!</span>
+                    </div>
+                    <p>You're showing solid understanding of the material. With a bit more practice, you'll master these concepts!</p>
+                `;
+                studyTips.innerHTML = `
+                    <h4 class="font-semibold text-blue-900 mb-2">Study Recommendations</h4>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• Review the questions you missed to identify knowledge gaps</li>
+                        <li>• Focus on understanding the reasoning behind correct answers</li>
+                        <li>• Practice regularly to improve retention</li>
+                    </ul>
+                `;
+            } else {
+                performanceMessage.innerHTML = `
+                    <div class="flex items-center text-yellow-700 mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="font-semibold">Keep Practicing!</span>
+                    </div>
+                    <p>This material needs more attention. Don't worry - with focused study, you'll see improvement!</p>
+                `;
+                studyTips.innerHTML = `
+                    <h4 class="font-semibold text-blue-900 mb-2">Focused Study Plan</h4>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• Review your textbook chapter on ${unitInfo[currentUnit].name}</li>
+                        <li>• Take notes on key concepts and definitions</li>
+                        <li>• Practice with easier questions first, then progress to harder ones</li>
+                        <li>• Consider forming a study group or seeking help from your teacher</li>
+                    </ul>
+                `;
+            }
+            
+            showView('results');
+        }
+
+        function showAnswerReview() {
+            const reviewContent = document.getElementById('review-content');
+            
+            reviewContent.innerHTML = sessionAnswers.map((answer, index) => {
+                const question = answer.question;
+                const isCorrect = answer.isCorrect;
+                const timeSpent = Math.round(answer.timeSpent / 1000);
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-lg p-6 card-shadow ${isCorrect ? 'review-correct' : 'review-incorrect'}">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 ${isCorrect ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'} rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                                    ${index + 1}
+                                </span>
+                                <div>
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                        ${isCorrect ? 'Correct' : 'Incorrect'}
+                                    </span>
+                                    <span class="ml-2 text-sm text-gray-600">${timeSpent}s</span>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-500">${question.category} • ${question.difficulty}</span>
+                        </div>
+                        
+                        <h4 class="text-lg font-semibold text-gray-900 mb-4">${question.question}</h4>
+                        
+                        <div class="space-y-2 mb-4">
+                            ${question.options.map((option, optionIndex) => {
+                                let classes = 'p-3 rounded-lg border-2 ';
+                                if (optionIndex === question.correct) {
+                                    classes += 'border-green-300 bg-green-50 text-green-800';
+                                } else if (optionIndex === answer.selectedAnswer && !isCorrect) {
+                                    classes += 'border-red-300 bg-red-50 text-red-800';
+                                } else {
+                                    classes += 'border-gray-200 bg-gray-50 text-gray-700';
+                                }
+                                
+                                return `
+                                    <div class="${classes}">
+                                        <div class="flex items-center">
+                                            <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium mr-3 ${
+                                                optionIndex === question.correct ? 'bg-green-200' : 
+                                                optionIndex === answer.selectedAnswer && !isCorrect ? 'bg-red-200' : 'bg-gray-200'
+                                            }">
+                                                ${String.fromCharCode(65 + optionIndex)}
+                                            </span>
+                                            <span>${option}</span>
+                                            ${optionIndex === question.correct ? '<span class="ml-auto text-green-600 font-medium">✓ Correct</span>' : ''}
+                                            ${optionIndex === answer.selectedAnswer && !isCorrect ? '<span class="ml-auto text-red-600 font-medium">Your Answer</span>' : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        
+                        <div class="explanation-section ${isCorrect ? 'explanation-correct' : 'explanation-incorrect'} p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2">${isCorrect ? 'Why this is correct:' : 'Explanation:'}</h5>
+                            <p class="text-sm">${question.explanations.correct}</p>
+                            ${!isCorrect && question.explanations.incorrect[answer.selectedAnswer] ? `
+                                <div class="mt-2 pt-2 border-t border-gray-200">
+                                    <p class="text-sm"><strong>Why your answer was incorrect:</strong> ${question.explanations.incorrect[answer.selectedAnswer]}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            showView('answer-review');
+        }
+
+        // Assignment Builder Functions
+        function initializeQuestionLibrary() {
+            allQuestions = [];
+            Object.keys(questionDatabase).forEach(unit => {
+                questionDatabase[unit].forEach((question, index) => {
+                    allQuestions.push({
+                        ...question,
+                        unit: parseInt(unit),
+                        id: `${unit}-${index}`
+                    });
+                });
+            });
+            
+            displayQuestionLibrary();
+        }
+
+        function displayQuestionLibrary() {
+            const container = document.getElementById('question-library');
+            if (!container) return;
+            
+            const unitFilter = document.getElementById('unit-filter')?.value;
+            const difficultyFilter = document.getElementById('difficulty-filter')?.value;
+            
+            let filteredQuestions = allQuestions.filter(question => {
+                if (unitFilter && question.unit.toString() !== unitFilter) return false;
+                if (difficultyFilter && question.difficulty !== difficultyFilter) return false;
+                return true;
+            });
+            
+            container.innerHTML = filteredQuestions.map(question => {
+                const isSelected = selectedQuestionsForAssignment.some(q => q.id === question.id);
+                const unitName = unitInfo[question.unit].name;
+                
+                return `
+                    <div class="border rounded-lg p-4 ${isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200'} difficulty-${question.difficulty.toLowerCase()}">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mr-2">
+                                        Unit ${question.unit}: ${unitName}
+                                    </span>
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                        question.difficulty === 'Basic' ? 'bg-green-100 text-green-800' :
+                                        question.difficulty === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                                        'bg-red-100 text-red-800'
+                                    }">
+                                        ${question.difficulty}
+                                    </span>
+                                </div>
+                                <h4 class="font-medium text-gray-900 mb-2">${question.question}</h4>
+                                <div class="text-sm text-gray-600 space-y-1">
+                                    ${question.options.map((option, index) => `
+                                        <div class="flex items-center">
+                                            <span class="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-xs mr-2">
+                                                ${String.fromCharCode(65 + index)}
+                                            </span>
+                                            <span>${option}</span>
+                                            ${index === question.correct ? '<span class="ml-2 text-green-600 text-xs">✓</span>' : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <button onclick="toggleQuestionSelection('${question.id}')" 
+                                    class="ml-4 px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                                        isSelected ? 
+                                        'bg-red-100 text-red-700 hover:bg-red-200' : 
+                                        'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                                    }">
+                                ${isSelected ? 'Remove' : 'Add'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleQuestionSelection(questionId) {
+            const questionIndex = selectedQuestionsForAssignment.findIndex(q => q.id === questionId);
+            
+            if (questionIndex > -1) {
+                selectedQuestionsForAssignment.splice(questionIndex, 1);
+            } else {
+                const question = allQuestions.find(q => q.id === questionId);
+                if (question) {
+                    selectedQuestionsForAssignment.push(question);
+                }
+            }
+            
+            updateSelectedQuestionsDisplay();
+            displayQuestionLibrary();
+        }
+
+        function updateSelectedQuestionsDisplay() {
+            const countElement = document.getElementById('selected-count');
+            const listElement = document.getElementById('selected-questions-list');
+            
+            if (countElement) {
+                countElement.textContent = selectedQuestionsForAssignment.length;
+            }
+            
+            if (listElement) {
+                if (selectedQuestionsForAssignment.length === 0) {
+                    listElement.innerHTML = '<p class="text-sm text-gray-500">No questions selected</p>';
+                } else {
+                    listElement.innerHTML = selectedQuestionsForAssignment.map(question => `
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-700">Unit ${question.unit} - ${question.difficulty}</span>
+                            <button onclick="toggleQuestionSelection('${question.id}')" class="text-red-600 hover:text-red-800">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        function filterQuestions() {
+            displayQuestionLibrary();
+        }
+
+        function createAssignment() {
+            const title = document.getElementById('assignment-title').value;
+            const description = document.getElementById('assignment-description').value;
+            const dueDate = document.getElementById('assignment-due-date').value;
+            const timeLimit = document.getElementById('assignment-time-limit').value;
+            
+            if (!title || !description || !dueDate || !timeLimit || selectedQuestionsForAssignment.length === 0) {
+                showNotification('Please fill in all fields and select at least one question.', 'error');
+                return;
+            }
+            
+            const assignment = {
+                id: Date.now().toString(),
+                title: title,
+                description: description,
+                dueDate: dueDate,
+                timeLimit: parseInt(timeLimit),
+                questions: [...selectedQuestionsForAssignment],
+                createdAt: new Date().toISOString(),
+                status: 'active'
+            };
+            
+            // Save assignment (in real app, this would go to a server)
+            let assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            assignments.push(assignment);
+            localStorage.setItem('teacherAssignments', JSON.stringify(assignments));
+            
+            // Reset form
+            document.getElementById('assignment-form').reset();
+            selectedQuestionsForAssignment = [];
+            updateSelectedQuestionsDisplay();
+            
+            showNotification('Assignment created successfully!', 'success');
+            showView('assignment-management');
+        }
+
+        // Utility Functions
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                'bg-blue-100 text-blue-800 border border-blue-200'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        ${type === 'success' ? 
+                            '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>' :
+                            type === 'error' ?
+                            '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>' :
+                            '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>'
+                        }
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default due date to one week from now
+            const dueDateInput = document.getElementById('assignment-due-date');
+            if (dueDateInput) {
+                const nextWeek = new Date();
+                nextWeek.setDate(nextWeek.getDate() + 7);
+                dueDateInput.value = nextWeek.toISOString().split('T')[0];
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994aaf8d02396754',t:'MTc2MTQ4OTM4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
